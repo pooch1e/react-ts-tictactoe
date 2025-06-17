@@ -4,6 +4,8 @@ export const Gameboard = () => {
   const [player, setPlayer] = useState('X');
 
   const handleClick = (index) => {
+    if (board[index]) return;
+
     const newBoard = [...board];
     newBoard[index] = player;
     updateBoard(newBoard);

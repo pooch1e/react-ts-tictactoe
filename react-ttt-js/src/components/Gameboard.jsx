@@ -8,11 +8,21 @@ export const Gameboard = () => {
     if (board[index]) return;
 
     const newBoard = [...board];
-    newBoard[index] = player;
-    updateBoard(newBoard);
-    console.log(newBoard);
 
+    newBoard[index] = player;
+
+    updateBoard(newBoard);
+
+    console.log(newBoard);
+    // Handle winning
     const winnerCheck = checkWinner(newBoard);
+
+    if (winnerCheck === 'Draw') {
+      console.log('was a draw');
+      setWinner(null);
+      updateBoard(Array(9).fill(null));
+    }
+
     if (winnerCheck) {
       setWinner(winnerCheck);
       //reset board
@@ -44,7 +54,10 @@ export const Gameboard = () => {
         return board[a];
       }
     }
-    console.log('draw');
+    if (board.every((cell) => cell !== null)) {
+      setWinner('Draw');
+    }
+
     return null;
   };
 

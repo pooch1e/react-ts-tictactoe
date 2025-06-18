@@ -1,76 +1,36 @@
 import { useState } from 'react';
-import { Counter } from './Counter';
+import { Square } from './Square';
 export const Gameboard = () => {
   const [board, updateBoard] = useState(Array(9).fill(null));
-  const [player, setPlayer] = useState('X');
-  const [winner, setWinner] = useState(null);
-  const handleClick = (index) => {
-    if (board[index]) return;
+  const [XisNext, setXNext] = useState(true);
 
-    const newBoard = [...board];
-
-    newBoard[index] = player;
-
-    updateBoard(newBoard);
-
-    console.log(newBoard);
-    // Handle winning
-    const winnerCheck = checkWinner(newBoard);
-
-    if (winnerCheck === 'Draw') {
-      console.log('was a draw');
-      setWinner(null);
-      updateBoard(Array(9).fill(null));
+  function handleClick(i) {
+    const nextSquares = board.slice();
+    if (board[i]) return;
+    if (XisNext) {
+      nextSquares[i] = 'X';
+      setXNext(false);
+    } else {
+      nextSquares[i] = '0'
+      setXNext(true);
     }
 
-    if (winnerCheck) {
-      setWinner(winnerCheck);
-      //reset board
-      updateBoard(Array(9).fill(null));
-    }
-
-    if (player === 'X') {
-      setPlayer('O');
-    } else if (player === 'O') {
-      setPlayer('X');
-    }
-  };
-
-  const checkWinner = (board) => {
-    const winningCombos = [
-      [0, 1, 2], // Top row
-      [3, 4, 5], // Middle row
-      [6, 7, 8], // Bottom row
-      [0, 3, 6], // Left column
-      [1, 4, 7], // Middle column
-      [2, 5, 8], // Right column
-      [0, 4, 8], // Diagonal from top-left
-      [2, 4, 6], // Diagonal from top-right
-    ];
-
-    for (let [a, b, c] of winningCombos) {
-      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        console.log(board[a], 'winner');
-        return board[a];
-      }
-    }
-    if (board.every((cell) => cell !== null)) {
-      setWinner('Draw');
-    }
-
-    return null;
-  };
+    updateBoard(nextSquares);
+  }
 
   return (
-    <section className="gameboard-container">
-      {board.map((cell, index) => {
-        return (
-          <div key={index} className="box" onClick={() => handleClick(index)}>
-            {cell}
-          </div>
-        );
-      })}
-      <Counter winner={winner}></Counter>
-    </section>
+    <>
+      <div className="board-row">
+        <Square value={board[0]} onSqClick={() => handleClick(0)} />
+        <Square value={board[1]} onSqClick={() => handleClick(1)} />
+        <Square value={board[2]} onSqClick={() => handleClick(2)} />
+        <Square value={board[3]} onSqClick={() => handleClick(3)} />
+        <Square value={board[4]} onSqClick={() => handleClick(4)} />
+        <Square value={board[5]} onSqClick={() => handleClick(5)} />
+        <Square value={board[6]} onSqClick={() => handleClick(6)} />
+        <Square value={board[7]} onSqClick={() => handleClick(7)} />
+        <Square value={board[8]} onSqClick={() => handleClick(8)} />
+      </div>
+    </>
   );
 };

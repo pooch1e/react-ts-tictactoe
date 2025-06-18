@@ -36,7 +36,7 @@ h1 {
 }
 
 
-.gameboard-container {
+.board-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
@@ -45,7 +45,7 @@ h1 {
   padding: 10px;
 }
 
-.box {
+.square {
   height: 100px;
   width: 100px;
   border: 1px solid white;
